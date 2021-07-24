@@ -33,5 +33,7 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU}}
           heroku_app_name: "pokemonindexfree" #Must be unique in Heroku
           heroku_email: "${{secrets.EMAIL}}"
-
+          healthcheck: https://pokemonindexfree.herokuapp.com/health
+          checkstring: ok
+          rollbackonhealthcheckfailed: true
      
