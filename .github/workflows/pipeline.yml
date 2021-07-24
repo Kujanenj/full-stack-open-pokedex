@@ -17,7 +17,7 @@ jobs:
         with:
           heroku_api_key: ${{secrets.HEROKU}}
           heroku_app_name: "pokemonindexfree" #Must be unique in Heroku
-          heroku_email: "jussi.kujanen@gmail.com"
+          heroku_email: "${{secrets.EMAIL}}"
       - name: npm install 
         run: npm install  
       - name: lint        
