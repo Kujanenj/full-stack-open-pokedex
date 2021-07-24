@@ -18,6 +18,7 @@ const App = () => {
     return <LoadingSpinner />
   }
   if (error) {
+    // TODO: this ccmment is required by the course. it is safe to remove :)
     return <ErrorMessage error={error} />
   }
 
