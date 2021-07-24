@@ -43,7 +43,7 @@ jobs:
           start: npm run start-prod
           wait-on: http://localhost:5000
       - name: deploy
-        if: ${{ github.event_name == 'push' && $COMMIT_MESSAGES}}
+        if: ${{ github.event_name == 'push'}}
         uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU}}
@@ -52,6 +52,7 @@ jobs:
           healthcheck: https://pokemonindexfree.herokuapp.com/health
           checkstring: ok
           rollbackonhealthcheckfailed: true
+      - uses: actions/checkout@v2
       - name: Bump version and push tag
         if: ${{ github.event_name == 'push' }}
         uses: anothrNick/github-tag-action@1.33.0
