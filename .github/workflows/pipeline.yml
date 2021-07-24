@@ -15,22 +15,29 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '12.x'
+
       - name: npm install 
-        run: npm install  
+        run: npm ci  
+
       - name: lint        
         run: npm run eslint
+
       - name: build
         run: npm run build
+
       - name: test
         run: npm run test
+
       - name: e2e tests
         uses: cypress-io/github-action@v2
         with:
           command: npm run test:e2e
           start: npm run start-prod
           wait-on: http://localhost:5000
+
+          # DEPLOY
       - name: deploy
-        if: ${{ github.event_name == 'push' }} && "!contains(github.event.head_commit.message, 'skip')"
+        if: ${{ github.event_name == 'push'  && !contains(github.event.head_commit.message, 'skip')}}
         uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU}}
@@ -39,13 +46,22 @@ jobs:
           healthcheck: https://pokemonindexfree.herokuapp.com/health
           checkstring: ok
           rollbackonhealthcheckfailed: true
+
+      - name: skipTesting
+        run: echo ${{github.event.head_commit.message}}
+
+      - name: testPrint
+        if: ${{!contains(github.event.head_commit.message, 'skip')}}
+        run: echo "didnt contain?"
+
       - uses: actions/checkout@v2
       - name: Bump version and push tag
-        if: ${{ github.event_name == 'push' }} && "!contains(github.event.head_commit.message, 'skip')"
+        if: ${{ github.event_name == 'push'  && !contains(github.event.head_commit.message, 'skip')}}
         uses: anothrNick/github-tag-action@1.33.0
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             DEFAULT_BUMP: patch
+
       - name: slackMessage
         uses: 8398a7/action-slack@v3
         with:
