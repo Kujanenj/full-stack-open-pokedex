@@ -44,6 +44,7 @@ const PokemonPage = ({ previous, next }) => {
                   <tr key={name}>
                     <td className="pokemon-stats-name">{name}</td>
                     <td className="pokemon-stats-value">{value}</td>
+                    <td className="removeME">removeME</td>
                   </tr>
                 ))}
               </tbody>
