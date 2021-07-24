@@ -34,7 +34,6 @@ jobs:
           command: npm run test:e2e
           start: npm run start-prod
           wait-on: http://localhost:5000
-
           # DEPLOY
       - name: deploy
         if: ${{ github.event_name == 'push'  && !contains(github.event.head_commit.message, 'skip')}}
@@ -46,14 +45,6 @@ jobs:
           healthcheck: https://pokemonindexfree.herokuapp.com/health
           checkstring: ok
           rollbackonhealthcheckfailed: true
-
-      - name: testPrintContains
-        if: ${{contains(github.event.head_commit.message, 'skip')}}
-        run: echo "Contains!"
-
-      - name: testPrintNocontain
-        if: ${{!contains(github.event.head_commit.message, 'skip')}}
-        run: echo "didnt contain?"
 
       - uses: actions/checkout@v2
       - name: Bump version and push tag
